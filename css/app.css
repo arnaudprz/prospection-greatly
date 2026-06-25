@@ -105,12 +105,13 @@ header.top{background:var(--white);border-bottom:1px solid var(--line);padding:1
 .page-head{margin-bottom:16px}
 .page-head h1{font-size:26px;line-height:1.15;margin-bottom:4px}
 .page-head .sub{color:var(--muted);font-size:14px}
-.detail-grid{display:grid;grid-template-columns:1fr;gap:0 28px}
+.detail-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px}
+.detail-grid .section{margin-top:0}
 .fl{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:10px 0 4px}
 .actions-row{flex-direction:column}
 
-.section{margin-top:18px}
-.section .stitle{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--green);font-weight:600;margin-bottom:8px;border-bottom:1px solid var(--line);padding-bottom:5px}
+.section{margin-top:14px;background:var(--white);border:1px solid var(--line);border-radius:12px;padding:15px 18px;box-shadow:var(--shadow)}
+.section .stitle{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--green);font-weight:600;margin-bottom:10px;border-bottom:1px solid var(--line);padding-bottom:8px}
 .row{display:flex;justify-content:space-between;gap:12px;padding:5px 0;font-size:13.5px}
 .row .k{color:var(--muted)}
 .row .v{text-align:right;font-weight:500}
