@@ -1,6 +1,4 @@
-/* landing.css — page café personnalisée (rdv.html) — MOBILE FIRST
-   Calée sur le mockup fourni : bandeau vert, accroche, titre serif, chips, CTA,
-   signature, pied avec désinscription. + photo en haut et itinéraires en bas. */
+/* landing.css — page café personnalisée (rdv.html) — MOBILE FIRST */
 
 body{line-height:1.55}
 .wrap{max-width:600px;margin:0 auto;padding:18px 14px 40px}
@@ -13,11 +11,9 @@ body{line-height:1.55}
 .band b{font-family:'Fraunces',Georgia,serif;font-size:18px;color:#fff}
 .band-right{font-size:12px;line-height:1.3;color:rgba(255,255,255,.88);text-align:right;max-width:48%}
 
-/* Photo en haut (pleine largeur) */
+/* Photo en haut */
 .hero{margin:0}
 .hero img{width:100%;aspect-ratio:3/2;object-fit:cover;object-position:40% 56%;display:block}
-.hero-cap{padding:9px 18px 0}
-.hero figcaption{font-size:12px;color:var(--muted);text-align:center}
 
 /* Corps */
 .body{padding:20px 18px 6px}
@@ -42,39 +38,43 @@ p.lead{font-size:15.5px;color:#33312e;margin-bottom:13px}
 .slot{flex:1 1 calc(50% - 4px);text-align:center;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:11px 12px;font-size:13.5px;cursor:pointer;font-family:inherit}
 .slot:hover{border-color:var(--green);color:var(--green-d)}
 
-/* Signature */
-.sign{display:flex;gap:14px;align-items:center;padding:18px;border-top:1px solid var(--line)}
-.avatar{width:58px;height:58px;border-radius:50%;flex:0 0 auto;object-fit:cover;border:2px solid var(--soft);background:#EEF1EA;color:var(--green);display:grid;place-items:center;font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:600}
-.info b{font-family:'Fraunces',Georgia,serif;font-size:16.5px}
-.info .role{color:var(--muted);font-size:12.5px;margin-bottom:7px}
-.contacts{display:flex;flex-wrap:wrap;gap:7px}
-.contacts a{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;text-decoration:none;color:var(--dark);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:6px 11px}
-.contacts a:hover{border-color:var(--green);color:var(--green-d)}
+/* ---- Signature ---- */
+.sign{display:flex;gap:16px;align-items:center;padding:20px 20px}
+.avatar{width:60px;height:60px;border-radius:50%;flex:0 0 auto;object-fit:cover;background:#EEF1EA;color:var(--green);display:grid;place-items:center;font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:600}
+.info b{font-family:'Fraunces',Georgia,serif;font-size:19px}
+.info .role{color:var(--muted);font-size:13.5px;margin-bottom:8px}
+.contacts{display:flex;flex-wrap:wrap;align-items:center;gap:5px 8px}
+.contacts a{display:inline-flex;align-items:center;gap:6px;font-size:13px;text-decoration:none;color:var(--green-d)}
+.contacts a:hover{text-decoration:underline}
+.contacts a svg{flex:0 0 auto}
+.contacts .sep{color:var(--soft)}
 
-/* Adresse + itinéraires (en bas) */
-.address{padding:16px 18px;border-top:1px solid var(--line);text-align:center}
-.addr-line{font-size:13px;color:var(--dark);margin-bottom:9px}
-.dir-links{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
-.dir-links a{font-size:12.5px;text-decoration:none;color:var(--green-d);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:6px 13px}
-.dir-links a:hover{border-color:var(--green)}
+/* ---- Bandeau adresse ---- */
+.address{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:16px 20px;background:var(--bg);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.addr-left{display:flex;align-items:flex-start;gap:10px}
+.addr-ic{color:var(--green);display:inline-flex;margin-top:2px}
+.addr-left b{font-size:15px}
+.addr-sub{font-size:13px;color:var(--muted);margin-top:2px}
+.addr-right{display:flex;gap:16px;flex-wrap:wrap}
+.addr-right a{display:inline-flex;align-items:center;gap:6px;font-size:13px;text-decoration:none;color:var(--green-d)}
+.addr-right a:hover{text-decoration:underline}
+.addr-right a svg{flex:0 0 auto}
 
-/* Pied */
-.foot{background:var(--bg);padding:14px 18px;text-align:center;font-size:11.5px;color:var(--muted);border-top:1px solid var(--line)}
-.foot a{display:block;margin-top:4px;color:var(--muted);text-decoration:underline}
+/* ---- Pied ---- */
+.foot{padding:16px 20px;text-align:center;font-size:12px;color:var(--muted)}
+.foot a{display:block;margin-top:5px;color:var(--muted);text-decoration:underline}
 
 /* ---------- Tablette / desktop ---------- */
 @media (min-width:600px){
   .wrap{padding:30px 22px 60px}
   .band{padding:17px 24px}
-  .hero-cap{padding:11px 26px 0}
   .body{padding:26px 26px 8px}
   h1{font-size:31px;margin-bottom:16px}
   p.lead{font-size:16px}
   .cta{display:inline-flex;width:auto;padding:15px 24px;font-size:15.5px}
   .cta-sec{display:inline-block;margin-left:16px;margin-top:0}
   .slot{flex:0 0 auto}
-  .sign{padding:22px 26px;gap:16px}
-  .avatar{width:64px;height:64px;font-size:23px}
+  .sign{padding:24px 26px}
   .address{padding:18px 26px}
-  .foot{padding:16px 26px}
+  .foot{padding:18px 26px}
 }
