@@ -58,6 +58,7 @@ header.top{background:var(--white);border-bottom:1px solid var(--line);padding:1
 .pen:hover{color:var(--green-d)}
 .edit-actions{display:flex;gap:8px;margin-top:12px}
 .mini-btn{padding:8px 14px;font-size:13px;flex:0 0 auto}
+.relsel{width:auto;padding:5px 9px;font-size:12.5px}
 
 /* Grand format : formulaire d'ajout sur 3 colonnes */
 @media (min-width:1300px){ .detail-grid{grid-template-columns:repeat(3,1fr)} }

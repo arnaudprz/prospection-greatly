@@ -8,7 +8,7 @@ function seedData() {
     entreprise: r[0], commune: r[1], dirigeant: r[2], secteur: r[3],
     effectif: r[4], forme: r[5], naf: r[6],
     email: "", telephone: "", siren: "", adresse: "",
-    linkedin: "", statut: "mail_a_envoyer", note: ""
+    linkedin: "", relation_linkedin: "", statut: "mail_a_envoyer", note: ""
   }));
 }
 

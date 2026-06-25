@@ -12,7 +12,8 @@ const DETAIL_SECTIONS = [
   ] },
   { key: "dirigeant", title: "Dirigeant", fields: [
     { k: "dirigeant", label: "Nom", ph: "à identifier" },
-    { k: "linkedin", label: "LinkedIn" }
+    { k: "linkedin", label: "LinkedIn" },
+    { k: "relation_linkedin", label: "Relation LinkedIn" }
   ] },
   { key: "contact", title: "Contact", fields: [
     { k: "email", label: "Email", ph: "à enrichir" },
@@ -24,6 +25,10 @@ const DETAIL_SECTIONS = [
   ] }
 ];
 let EDIT_SECTION = null;
+const RELATION_OPTS = [["", "À vérifier"], ["non_connecte", "Non connecté"], ["2e", "2e degré"], ["connecte", "Connecté (1er degré)"], ["invitation", "Invitation envoyée"]];
+function relOptions(c) {
+  return RELATION_OPTS.map(x => `<option value="${x[0]}" ${(c.relation_linkedin || "") === x[0] ? "selected" : ""}>${x[1]}</option>`).join("");
+}
 
 function v(val, ph) { return val ? `<span class="v">${val}</span>` : `<span class="v empty">${ph || "à renseigner"}</span>`; }
 function esc(s) { return (s || "").replace(/"/g, "&quot;"); }
@@ -52,8 +57,11 @@ function sectionHtml(c, sec) {
   const head = `<div class="stitle stitle-row"><span>${sec.title}</span>` +
     (editing ? "" : `<button class="pen" onclick="editSection('${c.id}','${sec.key}')" title="Modifier">${PENCIL}</button>`) + `</div>`;
   if (editing) {
-    const inputs = sec.fields.map(f =>
-      `<label class="fl">${f.label}</label><input id="fe_${f.k}" value="${esc(c[f.k])}" placeholder="${f.ph || f.label}">`).join("");
+    const inputs = sec.fields.map(f => {
+      if (f.k === "relation_linkedin")
+        return `<label class="fl">${f.label}</label><select id="fe_relation_linkedin">${relOptions(c)}</select>`;
+      return `<label class="fl">${f.label}</label><input id="fe_${f.k}" value="${esc(c[f.k])}" placeholder="${f.ph || f.label}">`;
+    }).join("");
     return `<div class="section">${head}${inputs}
       <div class="edit-actions">
         <button class="btn btn-primary mini-btn" onclick="saveSection('${c.id}','${sec.key}')">Enregistrer</button>
@@ -66,6 +74,9 @@ function sectionHtml(c, sec) {
         ? `<a href="${c.linkedin}" target="_blank" rel="noopener" style="color:var(--l2)">Voir le profil ↗</a>`
         : `<a href="${linkedinSearch(c)}" target="_blank" rel="noopener" style="color:var(--l2)">Rechercher sur LinkedIn</a>`;
       return `<div class="row"><span class="k">${f.label}</span><span class="v">${link}</span></div>`;
+    }
+    if (f.k === "relation_linkedin") {
+      return `<div class="row"><span class="k">${f.label}</span><span class="v"><select class="relsel" onchange="saveField('${c.id}','relation_linkedin',this.value)">${relOptions(c)}</select></span></div>`;
     }
     return `<div class="row"><span class="k">${f.label}</span>${v(c[f.k], f.ph)}</div>`;
   }).join("");
