@@ -57,7 +57,7 @@
     fetch(CONFIG.BACKEND_URL, { method: "POST", body: JSON.stringify({ action: "book", token, iso }) })
       .then(r => r.json()).then(() => {
         document.getElementById("booking").innerHTML =
-          `<p class="lead">C'est noté pour <b>${label}</b>. Vous recevrez une confirmation par mail avec le lien visio. À très vite !</p>`;
+          `<p class="lead">C'est noté pour <b>${label}</b>. Vous recevrez une confirmation par mail, on se voit à la Greatly House. À très vite !</p>`;
       });
   };
 })();

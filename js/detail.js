@@ -24,7 +24,7 @@ function openDetail(id) {
     `<option value="${l.id}" ${l.id === c.statut ? "selected" : ""}>${l.label}</option>`).join("");
   const linkedin = c.linkedin
     ? `<a href="${c.linkedin}" target="_blank" rel="noopener" style="color:var(--l2)">Voir le profil ↗</a>`
-    : `<a href="${linkedinSearch(c)}" target="_blank" rel="noopener" style="color:var(--l2)">🔍 Rechercher sur LinkedIn</a>`;
+    : `<a href="${linkedinSearch(c)}" target="_blank" rel="noopener" style="color:var(--l2)">Rechercher sur LinkedIn</a>`;
 
   document.getElementById("detailView").innerHTML = `
     <div class="page">
