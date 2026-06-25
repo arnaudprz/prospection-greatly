@@ -158,16 +158,18 @@ function renderDetail(c) {
             <select onchange="changeStatus('${c.id}',this.value)">${opts}</select>
           </div>
 
-          ${DETAIL_SECTIONS.map(s => sectionHtml(c, s)).join("")}
-
-          <div class="section">
-            <div class="stitle">Notes</div>
-            <textarea placeholder="Tes notes sur ce prospect…" onblur="saveField('${c.id}','note',this.value)">${c.note || ""}</textarea>
-          </div>
+          ${sectionHtml(c, DETAIL_SECTIONS[0])}
 
           <div class="section">
             <div class="stitle">Page perso (landing)</div>
             ${scenariosHtml(c)}
+          </div>
+
+          ${DETAIL_SECTIONS.slice(1).map(s => sectionHtml(c, s)).join("")}
+
+          <div class="section">
+            <div class="stitle">Notes</div>
+            <textarea placeholder="Tes notes sur ce prospect…" onblur="saveField('${c.id}','note',this.value)">${c.note || ""}</textarea>
           </div>
         </aside>
       </div>
