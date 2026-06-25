@@ -14,7 +14,11 @@ function setNav(active) {
   if (b) b.classList.toggle("active", active === "board");
 }
 let FILTER = null;                         // étape filtrée dans le Pipeline (null = toutes)
+let SEARCH = "";                           // recherche texte
+let SORT = "";                             // tri courant
 function setFilter(id) { FILTER = id; render(); }
+function setSearch(v) { SEARCH = v; render(); }
+function setSort(v) { SORT = v; render(); }
 
 function goHome() { renderHome(); showView("homeView"); setNav("home"); }
 function goBoard(lane) { FILTER = lane || null; render(); showView("boardView"); setNav("board"); }

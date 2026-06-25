@@ -18,7 +18,9 @@ function renderHome() {
     const w = Math.round((n / max) * 100);
     const pct = Math.round((n / total) * 100);
     return `
-      <div class="funnel-row" onclick="goBoard('${l.id}')">
+      <div class="funnel-row" tabindex="0" role="button" title="Filtrer : ${l.label}"
+        onclick="goBoard('${l.id}')"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();goBoard('${l.id}')}">
         <div class="fbar" style="border-left:4px solid ${l.color}">
           <div class="ffill" style="width:${w}%;background:color-mix(in srgb, ${l.color} 20%, #fff)"></div>
           <span class="flabel">${l.label}</span>

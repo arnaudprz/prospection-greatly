@@ -97,7 +97,9 @@ function scenariosHtml(c) {
 /* ---- Fil d'échanges (au centre) ---- */
 function threadHtml(c) {
   const items = [];
-  // entrée système (ce qu'on sait déjà)
+  const lane = LANES.find(l => l.id === c.statut);
+  items.push(`<div class="tl-item"><span class="tl-dot" style="background:${lane.color}"></span><div class="tl-body">
+      <b>Étape : ${lane.label}</b><div class="tl-meta">Statut actuel du suivi</div></div></div>`);
   items.push(`<div class="tl-item"><span class="tl-dot"></span><div class="tl-body">
       <b>Prospect ajouté à la prospection</b>
       <div class="tl-meta">Source : liste des entreprises à 5 km de Verlinghem</div></div></div>`);
@@ -168,6 +170,8 @@ function renderDetail(c) {
             <label>Étape du suivi</label>
             <select onchange="changeStatus('${c.id}',this.value)">${opts}</select>
           </div>
+
+          <button class="btn btn-ghost enrich" onclick="stub('Enrichissement (SIREN, adresse, email) via API entreprises + Dropcontact, disponible une fois le backend connecté')">Enrichir la fiche (SIREN, adresse, email…)</button>
 
           ${sectionHtml(c, DETAIL_SECTIONS[0])}
 
