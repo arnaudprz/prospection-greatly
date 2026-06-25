@@ -9,7 +9,7 @@
   // Personnalisation
   document.getElementById("hello").textContent = prenom ? "Bonjour " + prenom + "," : "Bonjour,";
   document.getElementById("lead").textContent = entreprise
-    ? "Vous dirigez " + entreprise + ", je dirige Greatly — à quelques rues l'un de l'autre. Deux dirigeants du même coin qui gagneraient sûrement à se connaître."
+    ? "Vous dirigez " + entreprise + ", je dirige Greatly, à quelques rues l'un de l'autre. Deux dirigeants du même coin qui gagneraient sûrement à se connaître."
     : "Vous et moi dirigeons chacun notre entreprise, à quelques rues l'un de l'autre. Deux dirigeants du même coin qui gagneraient sûrement à se connaître.";
 
   // Signature
@@ -22,9 +22,9 @@
     av.replaceWith(Object.assign(document.createElement("div"), { className: "avatar", textContent: initials }));
   };
   document.getElementById("contacts").innerHTML =
-    `<a href="mailto:${ME.email}">✉️ ${ME.email}</a>` +
-    `<a href="tel:${ME.tel.replace(/\s/g, '')}">📞 ${ME.tel}</a>` +
-    `<a href="${ME.linkedin}" target="_blank" rel="noopener">in LinkedIn</a>`;
+    `<a href="mailto:${ME.email}">${ME.email}</a>` +
+    `<a href="tel:${ME.tel.replace(/\s/g, '')}">${ME.tel}</a>` +
+    `<a href="${ME.linkedin}" target="_blank" rel="noopener">LinkedIn</a>`;
 
   // Bouton agenda (principal)
   const ctaAgenda = document.getElementById("ctaAgenda");
@@ -32,7 +32,7 @@
   else ctaAgenda.style.display = "none";
 
   // Répondre par email
-  const subject = encodeURIComponent("Un café entre voisins" + (entreprise ? (" — " + entreprise) : ""));
+  const subject = encodeURIComponent("Un café entre voisins" + (entreprise ? (" · " + entreprise) : ""));
   const body = encodeURIComponent("Bonjour Arnaud,\n\nAvec plaisir pour un café. Voici mes disponibilités : \n\n");
   document.getElementById("ctaMail").href = `mailto:${ME.email}?subject=${subject}&body=${body}`;
 
@@ -57,7 +57,7 @@
     fetch(CONFIG.BACKEND_URL, { method: "POST", body: JSON.stringify({ action: "book", token, iso }) })
       .then(r => r.json()).then(() => {
         document.getElementById("booking").innerHTML =
-          `<p class="lead">C'est noté pour <b>${label}</b> ☕ Vous recevrez une confirmation par mail avec le lien visio. À très vite !</p>`;
+          `<p class="lead">C'est noté pour <b>${label}</b>. Vous recevrez une confirmation par mail avec le lien visio. À très vite !</p>`;
       });
   };
 })();

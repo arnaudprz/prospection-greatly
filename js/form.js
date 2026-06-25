@@ -63,5 +63,5 @@ function saveProspect() {
   });
   persist();
   backToBoard();
-  stub("Prospect ajouté ✅");
+  stub("Prospect ajouté");
 }

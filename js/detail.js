@@ -78,9 +78,9 @@ function openDetail(id) {
       </div>
 
       <div class="actions actions-row">
-        <button class="btn btn-primary" onclick="stub('Brouillon « café entre voisins » généré par Claude')">✍️ Rédiger l'invitation (IA)</button>
-        <button class="btn btn-ghost" onclick="openLanding('${c.id}')">🔗 Ouvrir sa page perso (café)</button>
-        <button class="btn btn-ghost" onclick="stub('Ouverture du fil d\\'échange')">✉️ Voir les échanges</button>
+        <button class="btn btn-primary" onclick="stub('Brouillon « café entre voisins » généré par Claude')">Rédiger l'invitation (IA)</button>
+        <button class="btn btn-ghost" onclick="openLanding('${c.id}')">Ouvrir sa page perso (café)</button>
+        <button class="btn btn-ghost" onclick="stub('Ouverture du fil d\\'échange')">Voir les échanges</button>
       </div>
 
       <p class="hint">Les champs « à enrichir » seront remplis par le backend (API entreprises + Dropcontact).</p>
