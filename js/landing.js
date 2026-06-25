@@ -23,9 +23,11 @@
   av.onerror = function () {
     av.replaceWith(Object.assign(document.createElement("div"), { className: "avatar", textContent: initials }));
   };
+  const wa = "33" + ME.tel.replace(/\D/g, "").replace(/^0/, "");
   document.getElementById("contacts").innerHTML =
     `<a href="mailto:${ME.email}">${ME.email}</a>` +
     `<a href="tel:${ME.tel.replace(/\s/g, '')}">${ME.tel}</a>` +
+    `<a href="https://wa.me/${wa}" target="_blank" rel="noopener">Me contacter via WhatsApp</a>` +
     `<a href="${ME.linkedin}" target="_blank" rel="noopener">LinkedIn</a>`;
 
   // Bouton agenda (principal)

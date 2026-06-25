@@ -1,10 +1,11 @@
-/* board.js — vue Pipeline : liste pleine largeur (raccourcis LinkedIn / Mail / Landing) */
+/* board.js — vue Pipeline : liste pleine largeur, filtrable par étape */
 
 function render() {
   const counts = {};
   LANES.forEach(l => counts[l.id] = 0);
   DATA.forEach(c => counts[c.statut] = (counts[c.statut] || 0) + 1);
 
+  const list = DATA.filter(c => !FILTER || c.statut === FILTER);
   const board = document.getElementById("board");
   board.innerHTML = `
     <div class="plist">
@@ -14,10 +15,12 @@ function render() {
         <div class="lh-stage">Étape</div>
         <div class="lh-acts">Raccourcis</div>
       </div>
-      ${DATA.map(rowHtml).join("")}
+      ${list.length
+        ? list.map(rowHtml).join("")
+        : '<div class="lempty">Aucun prospect à cette étape.</div>'}
     </div>`;
 
-  renderStats(counts);
+  renderFilters(counts);
   if (typeof renderHome === "function") renderHome();
 }
 
@@ -50,14 +53,12 @@ function rowHtml(c) {
     </div>`;
 }
 
-function renderStats(counts) {
-  const items = [
-    ["À envoyer", counts.mail_a_envoyer || 0],
-    ["En attente", counts.mail_envoye || 0],
-    ["À relancer / répondu", counts.a_repondu || 0],
-    ["Cafés calés", counts.rdv_pris || 0],
-    ["Clients", counts.client || 0]
-  ];
-  document.getElementById("stats").innerHTML = items.map(i =>
-    `<div class="stat"><div class="n">${i[1]}</div><div class="k">${i[0]}</div></div>`).join("");
+/* Filtres par étape (cliquables) */
+function renderFilters(counts) {
+  let html = `<button class="fchip ${FILTER === null ? "active" : ""}" onclick="setFilter(null)">Tous <b>${DATA.length}</b></button>`;
+  LANES.forEach(l => {
+    html += `<button class="fchip ${FILTER === l.id ? "active" : ""}" onclick="setFilter('${l.id}')">` +
+      `<span class="fdot" style="background:${l.color}"></span>${l.label} <b>${counts[l.id] || 0}</b></button>`;
+  });
+  document.getElementById("stats").innerHTML = html;
 }

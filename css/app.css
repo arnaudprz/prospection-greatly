@@ -1,14 +1,14 @@
 /* app.css — interface admin : header, compteurs, rail, fiche */
 
-header.top{background:var(--white);border-bottom:1px solid var(--line);padding:14px 24px;display:flex;align-items:center;gap:18px;position:sticky;top:0;z-index:20}
+header.top{background:var(--white);border-bottom:1px solid var(--line);padding:14px 2.5vw;display:flex;align-items:center;gap:18px;position:sticky;top:0;z-index:20}
 .demo-badge{margin-left:auto;font-size:12px;background:#FDF0E6;color:#C0814E;border:1px solid #F4D9C2;padding:5px 10px;border-radius:999px}
 
-.stats{display:flex;gap:10px;padding:16px 24px 4px;flex-wrap:wrap}
+.stats{display:flex;gap:8px;padding:16px 2.5vw 4px;flex-wrap:wrap}
 .stat{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:10px 16px;min-width:120px;box-shadow:var(--shadow)}
 .stat .n{font-family:'Fraunces',serif;font-size:22px;line-height:1}
 .stat .k{font-size:12px;color:var(--muted);margin-top:4px}
 
-.board{display:flex;gap:14px;padding:18px 24px 40px;overflow-x:auto;align-items:flex-start}
+.board{display:flex;gap:14px;padding:18px 2.5vw 40px;overflow-x:auto;align-items:flex-start}
 .lane{background:rgba(255,255,255,.55);border:1px solid var(--line);border-radius:14px;min-width:268px;width:268px;flex:0 0 auto;display:flex;flex-direction:column;max-height:calc(100vh - 200px)}
 .lane-head{padding:12px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line)}
 .dot{width:9px;height:9px;border-radius:50%}
@@ -43,6 +43,24 @@ header.top{background:var(--white);border-bottom:1px solid var(--line);padding:1
 .ic{font-size:12px;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:5px 10px;text-decoration:none;color:var(--dark);font-family:inherit;cursor:pointer;white-space:nowrap;line-height:1.4}
 .ic:hover{border-color:var(--green);color:var(--green-d)}
 .ic.off{color:#c4bdb4;cursor:default}
+.lempty{padding:26px 16px;text-align:center;color:var(--muted);font-size:14px}
+
+/* Filtres par étape (cliquables) */
+.fchip{display:inline-flex;align-items:center;gap:7px;background:var(--white);border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:13px;font-family:inherit;color:var(--dark);cursor:pointer}
+.fchip:hover{border-color:var(--green-light)}
+.fchip.active{background:var(--green);color:#fff;border-color:var(--green)}
+.fchip b{font-weight:600}
+.fdot{width:8px;height:8px;border-radius:50%}
+
+/* Crayon d'édition de section */
+.stitle-row{display:flex;align-items:center;justify-content:space-between}
+.pen{background:none;border:none;color:var(--muted);cursor:pointer;padding:2px 0;display:inline-flex;align-items:center}
+.pen:hover{color:var(--green-d)}
+.edit-actions{display:flex;gap:8px;margin-top:12px}
+.mini-btn{padding:8px 14px;font-size:13px;flex:0 0 auto}
+
+/* Grand format : fiche sur 3 colonnes */
+@media (min-width:1300px){ .detail-grid{grid-template-columns:repeat(3,1fr)} }
 @media (max-width:760px){
   .lhead{display:none}
   .lrow{flex-wrap:wrap;gap:8px;align-items:flex-start}
@@ -81,7 +99,7 @@ header.top{background:var(--white);border-bottom:1px solid var(--line);padding:1
 .fpct{color:var(--muted);font-size:12.5px;min-width:96px}
 
 /* Fiche / formulaire en pleine page */
-.page{max-width:780px;margin:0 auto;padding:18px 18px 64px}
+.page{width:95%;max-width:none;margin:0 auto;padding:18px 0 64px}
 .back-btn{background:none;border:none;color:var(--muted);font-family:inherit;font-size:14px;cursor:pointer;padding:6px 0;margin-bottom:8px}
 .back-btn:hover{color:var(--green-d)}
 .page-head{margin-bottom:16px}
@@ -132,7 +150,7 @@ textarea{resize:vertical;min-height:72px}
   .lane{width:100%;min-width:0;max-height:none}
   .lane-body{max-height:none}
   .btn-add{padding:8px 12px;font-size:12.5px}
-  .page{padding:14px 16px 56px}
+  .page{width:auto;padding:14px 16px 56px}
   .page-head h1{font-size:23px}
   .actions-row .btn{width:100%}
   .nav a{padding:6px 9px;font-size:13px}

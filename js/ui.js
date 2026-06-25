@@ -13,9 +13,12 @@ function setNav(active) {
   if (h) h.classList.toggle("active", active === "home");
   if (b) b.classList.toggle("active", active === "board");
 }
+let FILTER = null;                         // étape filtrée dans le Pipeline (null = toutes)
+function setFilter(id) { FILTER = id; render(); }
+
 function goHome() { renderHome(); showView("homeView"); setNav("home"); }
-function goBoard() { render(); showView("boardView"); setNav("board"); }
-function backToBoard() { goBoard(); }
+function goBoard(lane) { FILTER = lane || null; render(); showView("boardView"); setNav("board"); }
+function backToBoard() { render(); showView("boardView"); setNav("board"); }
 
 let _toastT;
 function stub(msg) {

@@ -18,6 +18,7 @@ const ME = {
 const LANES = [
   { id: "mail_a_envoyer", label: "Mail à envoyer",             color: "var(--l1)" },
   { id: "mail_envoye",    label: "Mail envoyé",                color: "var(--l2)" },
+  { id: "linkedin_envoye",label: "Message LinkedIn envoyé",    color: "var(--l7)" },
   { id: "a_repondu",      label: "A répondu / à relancer",     color: "var(--l3)" },
   { id: "rdv_pris",       label: "Café calé",                  color: "var(--l4)" },
   { id: "client",         label: "Client",                     color: "var(--l5)" },

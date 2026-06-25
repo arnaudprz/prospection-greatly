@@ -4,7 +4,7 @@
   --dark:#1A1A1A; --muted:#6B6460; --bg:#F7F4EF; --white:#fff; --line:#E7E1D7;
   --shadow:0 1px 3px rgba(26,26,26,.06),0 4px 18px rgba(26,26,26,.05);
   /* couleurs des colonnes du rail (silos Greatly) */
-  --l1:#6B6460; --l2:#1E3A5F; --l3:#D46A2D; --l4:#0D7C5F; --l5:#6B3FA0; --l6:#C4432B;
+  --l1:#6B6460; --l2:#1E3A5F; --l3:#D46A2D; --l4:#0D7C5F; --l5:#6B3FA0; --l6:#C4432B; --l7:#0A66C2;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',system-ui,sans-serif;color:var(--dark);background:var(--bg);-webkit-font-smoothing:antialiased}
