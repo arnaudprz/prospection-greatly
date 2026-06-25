@@ -59,8 +59,34 @@ header.top{background:var(--white);border-bottom:1px solid var(--line);padding:1
 .edit-actions{display:flex;gap:8px;margin-top:12px}
 .mini-btn{padding:8px 14px;font-size:13px;flex:0 0 auto}
 
-/* Grand format : fiche sur 3 colonnes */
+/* Grand format : formulaire d'ajout sur 3 colonnes */
 @media (min-width:1300px){ .detail-grid{grid-template-columns:repeat(3,1fr)} }
+
+/* Fiche : échanges (centre) + détails (droite) */
+.conv-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:6px}
+.conv-main{display:flex;flex-direction:column;min-width:0}
+.conv-head{margin-bottom:14px}
+.conv-head h1{font-size:24px;line-height:1.15;margin-bottom:3px}
+.conv-head .sub{color:var(--muted);font-size:14px}
+.thread{background:var(--white);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:18px;min-height:220px;display:flex;flex-direction:column;gap:14px}
+.tl-item{display:flex;gap:10px}
+.tl-dot{width:9px;height:9px;border-radius:50%;background:var(--green);margin-top:5px;flex:0 0 auto}
+.tl-body b{font-size:13.5px}
+.tl-meta{font-size:12px;color:var(--muted);margin-top:2px}
+.tl-empty{color:var(--muted);font-size:13px;background:var(--bg);border:1px dashed var(--line);border-radius:10px;padding:12px;line-height:1.5}
+.composer{background:var(--white);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);margin-top:14px;overflow:hidden}
+.comp-tabs{display:flex;border-bottom:1px solid var(--line)}
+.ctab{flex:1;padding:11px;background:none;border:none;font-family:inherit;font-size:13.5px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent}
+.ctab.active{color:var(--dark);border-bottom-color:var(--green);font-weight:600}
+.comp-panel{padding:16px;display:flex;flex-direction:column;gap:9px}
+.muted{color:var(--muted);font-size:13px;line-height:1.5}
+.conv-side{display:flex;flex-direction:column;gap:14px;min-width:0}
+.conv-side .section,.conv-side .statusbox{margin-top:0}
+.side-id{display:flex;align-items:center;gap:12px}
+.side-id .avatar{width:46px;height:46px;border-radius:50%;background:#EEF1EA;color:var(--green);display:grid;place-items:center;font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:18px;border:2px solid var(--soft);flex:0 0 auto}
+.side-id b{font-family:'Fraunces',Georgia,serif;font-size:16px}
+.side-id .role{color:var(--muted);font-size:13px}
+@media (min-width:900px){ .conv-grid{grid-template-columns:1.7fr 1fr;align-items:start} }
 @media (max-width:760px){
   .lhead{display:none}
   .lrow{flex-wrap:wrap;gap:8px;align-items:flex-start}

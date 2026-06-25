@@ -1,4 +1,4 @@
-/* detail.js — fiche prospect en pleine page, chaque section éditable (crayon) */
+/* detail.js — fiche prospect : échanges au centre + détails à droite + composer */
 
 const PENCIL = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
 
@@ -25,9 +25,7 @@ const DETAIL_SECTIONS = [
 ];
 let EDIT_SECTION = null;
 
-function v(val, ph) {
-  return val ? `<span class="v">${val}</span>` : `<span class="v empty">${ph || "à renseigner"}</span>`;
-}
+function v(val, ph) { return val ? `<span class="v">${val}</span>` : `<span class="v empty">${ph || "à renseigner"}</span>`; }
 function esc(s) { return (s || "").replace(/"/g, "&quot;"); }
 function linkedinSearch(c) {
   return "https://www.linkedin.com/search/results/people/?keywords=" +
@@ -48,12 +46,11 @@ function copyLanding(id, s) {
   else prompt("Copier le lien :", url);
 }
 
+/* ---- Section détails (avec crayon d'édition) ---- */
 function sectionHtml(c, sec) {
   const editing = EDIT_SECTION === sec.key;
   const head = `<div class="stitle stitle-row"><span>${sec.title}</span>` +
-    (editing ? "" : `<button class="pen" onclick="editSection('${c.id}','${sec.key}')" title="Modifier">${PENCIL}</button>`) +
-    `</div>`;
-
+    (editing ? "" : `<button class="pen" onclick="editSection('${c.id}','${sec.key}')" title="Modifier">${PENCIL}</button>`) + `</div>`;
   if (editing) {
     const inputs = sec.fields.map(f =>
       `<label class="fl">${f.label}</label><input id="fe_${f.k}" value="${esc(c[f.k])}" placeholder="${f.ph || f.label}">`).join("");
@@ -63,7 +60,6 @@ function sectionHtml(c, sec) {
         <button class="btn btn-ghost mini-btn" onclick="cancelEdit('${c.id}')">Annuler</button>
       </div></div>`;
   }
-
   const rows = sec.fields.map(f => {
     if (f.k === "linkedin") {
       const link = c.linkedin
@@ -76,70 +72,120 @@ function sectionHtml(c, sec) {
   return `<div class="section">${head}${rows}</div>`;
 }
 
+function scenariosHtml(c) {
+  return Object.keys(SCENARIOS).map(s => `
+    <div class="scen-row">
+      <span class="scen-name">${SCENARIOS[s].name}</span>
+      <span class="scen-acts">
+        <button class="mini" onclick="openLanding('${c.id}','${s}')">Ouvrir</button>
+        <button class="mini" onclick="copyLanding('${c.id}','${s}')">Copier</button>
+      </span>
+    </div>`).join("");
+}
+
+/* ---- Fil d'échanges (au centre) ---- */
+function threadHtml(c) {
+  const items = [];
+  // entrée système (ce qu'on sait déjà)
+  items.push(`<div class="tl-item"><span class="tl-dot"></span><div class="tl-body">
+      <b>Prospect ajouté à la prospection</b>
+      <div class="tl-meta">Source : liste des entreprises à 5 km de Verlinghem</div></div></div>`);
+  return `
+    ${items.join("")}
+    <div class="tl-empty">Les échanges (emails, WhatsApp, invitations agenda) s'afficheront ici, chacun avec un <b>lien direct vers le message</b>, une fois le backend connecté.</div>`;
+}
+
+/* ---- Composer (Email / WhatsApp) ---- */
+function emailComposer(c) {
+  if (c.email) {
+    const subj = encodeURIComponent("Un café entre voisins" + (c.entreprise ? (" · " + c.entreprise) : ""));
+    return `<a class="btn btn-primary" href="mailto:${c.email}?subject=${subj}">Écrire un email à ${c.email}</a>
+      <button class="btn btn-ghost" onclick="stub('Brouillon « café entre voisins » généré par Claude')">Rédiger avec l'IA</button>`;
+  }
+  return `<p class="muted">Renseignez l'email du dirigeant (section Contact, à droite) pour écrire ici. En attendant, envoyez plutôt un <b>lien de landing</b> (à droite).</p>`;
+}
+function waComposer(c) {
+  if (c.telephone) {
+    const wa = c.telephone.replace(/\D/g, "").replace(/^0/, "33");
+    return `<a class="btn btn-primary" href="https://wa.me/${wa}" target="_blank" rel="noopener">Ouvrir WhatsApp avec ${c.dirigeant || "le dirigeant"}</a>`;
+  }
+  return `<p class="muted">Renseignez le téléphone du dirigeant (section Contact) pour ouvrir WhatsApp.</p>`;
+}
+function compTab(btn, which) {
+  document.querySelectorAll(".ctab").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById("comp-email").classList.toggle("hidden", which !== "email");
+  document.getElementById("comp-wa").classList.toggle("hidden", which !== "wa");
+}
+
+/* ---- Rendu de la fiche ---- */
 function renderDetail(c) {
   const opts = LANES.map(l =>
     `<option value="${l.id}" ${l.id === c.statut ? "selected" : ""}>${l.label}</option>`).join("");
+  const initials = (c.dirigeant || c.entreprise || "?").split(/\s+/).map(w => w[0]).join("").slice(0, 2).toUpperCase();
 
   document.getElementById("detailView").innerHTML = `
     <div class="page">
       <button class="back-btn" onclick="backToBoard()">← Retour à la liste</button>
 
-      <div class="page-head">
-        <h1>${c.entreprise}</h1>
-        <div class="sub">${c.commune} · ${c.secteur} · ${c.effectif} salariés</div>
-      </div>
+      <div class="conv-grid">
+        <section class="conv-main">
+          <div class="conv-head">
+            <h1>${c.entreprise}</h1>
+            <div class="sub">${c.commune} · ${c.secteur} · ${c.effectif} salariés</div>
+          </div>
 
-      <div class="statusbox">
-        <label>Étape du suivi</label>
-        <select onchange="changeStatus('${c.id}',this.value)">${opts}</select>
-      </div>
+          <div class="thread">${threadHtml(c)}</div>
 
-      <div class="detail-grid">
-        ${DETAIL_SECTIONS.map(s => sectionHtml(c, s)).join("")}
-      </div>
+          <div class="composer">
+            <div class="comp-tabs">
+              <button class="ctab active" onclick="compTab(this,'email')">Email</button>
+              <button class="ctab" onclick="compTab(this,'wa')">WhatsApp</button>
+            </div>
+            <div class="comp-panel" id="comp-email">${emailComposer(c)}</div>
+            <div class="comp-panel hidden" id="comp-wa">${waComposer(c)}</div>
+          </div>
+        </section>
 
-      <div class="section">
-        <div class="stitle">Notes</div>
-        <textarea placeholder="Tes notes sur ce prospect…" onblur="saveField('${c.id}','note',this.value)">${c.note || ""}</textarea>
-      </div>
+        <aside class="conv-side">
+          <div class="section side-id">
+            <div class="avatar">${initials}</div>
+            <div><b>${c.entreprise}</b><div class="role">${c.dirigeant || "Dirigeant à identifier"}</div></div>
+          </div>
 
-      <div class="section">
-        <div class="stitle">Page perso (landing) · un lien par scénario</div>
-        ${Object.keys(SCENARIOS).map(s => `
-          <div class="scen-row">
-            <span class="scen-name">${SCENARIOS[s].name}</span>
-            <span class="scen-acts">
-              <button class="mini" onclick="openLanding('${c.id}','${s}')">Ouvrir</button>
-              <button class="mini" onclick="copyLanding('${c.id}','${s}')">Copier le lien</button>
-            </span>
-          </div>`).join("")}
-      </div>
+          <div class="statusbox">
+            <label>Étape du suivi</label>
+            <select onchange="changeStatus('${c.id}',this.value)">${opts}</select>
+          </div>
 
-      <div class="actions actions-row">
-        <button class="btn btn-primary" onclick="stub('Brouillon « café entre voisins » généré par Claude')">Rédiger l'invitation (IA)</button>
-        <button class="btn btn-ghost" onclick="stub('Ouverture du fil d\\'échange')">Voir les échanges</button>
+          ${DETAIL_SECTIONS.map(s => sectionHtml(c, s)).join("")}
+
+          <div class="section">
+            <div class="stitle">Notes</div>
+            <textarea placeholder="Tes notes sur ce prospect…" onblur="saveField('${c.id}','note',this.value)">${c.note || ""}</textarea>
+          </div>
+
+          <div class="section">
+            <div class="stitle">Page perso (landing)</div>
+            ${scenariosHtml(c)}
+          </div>
+        </aside>
       </div>
     </div>`;
 }
 
-function openDetail(id) {
-  EDIT_SECTION = null;
-  renderDetail(DATA.find(x => x.id === id));
-  showView("detailView");
-}
+function openDetail(id) { EDIT_SECTION = null; renderDetail(DATA.find(x => x.id === id)); showView("detailView"); }
 function editSection(id, key) { EDIT_SECTION = key; renderDetail(DATA.find(x => x.id === id)); }
 function cancelEdit(id) { EDIT_SECTION = null; renderDetail(DATA.find(x => x.id === id)); }
 function saveSection(id, key) {
   const c = DATA.find(x => x.id === id);
-  const sec = DETAIL_SECTIONS.find(s => s.key === key);
-  sec.fields.forEach(f => { const el = document.getElementById("fe_" + f.k); if (el) c[f.k] = el.value.trim(); });
-  EDIT_SECTION = null;
-  persist();
+  DETAIL_SECTIONS.find(s => s.key === key).fields.forEach(f => {
+    const el = document.getElementById("fe_" + f.k); if (el) c[f.k] = el.value.trim();
+  });
+  EDIT_SECTION = null; persist();
   if (typeof render === "function") render();
-  renderDetail(c);
-  stub("Enregistré");
+  renderDetail(c); stub("Enregistré");
 }
-
 function changeStatus(id, val) {
   const c = DATA.find(x => x.id === id);
   c.statut = val; persist();
