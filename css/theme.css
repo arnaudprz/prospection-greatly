@@ -1,0 +1,17 @@
+/* theme.css — charte Greatly + base partagée (admin + landing) */
+:root{
+  --green:#6B7D5C; --green-d:#5d6e50; --green-light:#8A9B7A; --soft:#B5C4A6;
+  --dark:#1A1A1A; --muted:#6B6460; --bg:#F7F4EF; --white:#fff; --line:#E7E1D7;
+  --shadow:0 1px 3px rgba(26,26,26,.06),0 4px 18px rgba(26,26,26,.05);
+  /* couleurs des colonnes du rail (silos Greatly) */
+  --l1:#6B6460; --l2:#1E3A5F; --l3:#D46A2D; --l4:#0D7C5F; --l5:#6B3FA0; --l6:#C4432B;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--dark);background:var(--bg);-webkit-font-smoothing:antialiased}
+h1,h2,.serif{font-family:'Fraunces',Georgia,serif;font-weight:600}
+
+/* logo + marque (réutilisés sur les deux pages) */
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:30px;height:30px;border-radius:8px;background:var(--green);display:grid;place-items:center;color:#fff;font-family:'Fraunces',serif;font-weight:600}
+.brand b{font-family:'Fraunces',serif;font-size:18px}
+.brand span{color:var(--muted);font-size:13px;margin-left:2px}

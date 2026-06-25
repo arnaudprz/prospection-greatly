@@ -1,0 +1,115 @@
+/** Setup.gs — initialisation de la base, import des prospects, déclencheurs.
+ *  À lancer une fois, dans l'ordre : setup() -> importContacts() -> installTriggers().
+ *  Prérequis : Propriétés du script -> SHEET_ID (et CLAUDE_API_KEY pour l'IA). */
+
+function setup(){
+  let id = prop_('SHEET_ID');
+  let ss = id ? SpreadsheetApp.openById(id) : SpreadsheetApp.create('Prospection Greatly — Base');
+  if(!id){ PropertiesService.getScriptProperties().setProperty('SHEET_ID', ss.getId()); }
+  Object.keys(TABS).forEach(function(name){
+    let sh = ss.getSheetByName(name) || ss.insertSheet(name);
+    sh.clear();
+    sh.getRange(1,1,1,TABS[name].length).setValues([TABS[name]]).setFontWeight('bold');
+    sh.setFrozenRows(1);
+  });
+  ['Feuille 1','Sheet1'].forEach(function(n){ const s=ss.getSheetByName(n); if(s && ss.getSheets().length>1) ss.deleteSheet(s); });
+  Logger.log('Base prête. SHEET_ID = ' + ss.getId());
+}
+
+function installTriggers(){
+  ScriptApp.newTrigger('syncReplies').timeBased().everyMinutes(15).create();
+}
+
+// Import des prospects (mêmes données que js/data.js)
+// [entreprise, commune, dirigeant, secteur, effectif, forme, naf]
+function importContacts(){
+  const SEED = SEED_CONTACTS();
+  const sh = ss_().getSheetByName('Contacts');
+  if(sh.getLastRow() > 1) sh.getRange(2,1,sh.getLastRow()-1,TABS.Contacts.length).clearContent();
+  const rows = SEED.map(function(r,i){
+    const token = Utilities.getUuid().split('-')[0];
+    // id, entreprise, dirigeant, email, tel, commune, secteur, effectif, forme, naf, siren, adresse, statut, note, token, maj
+    return ['c'+(i+1), r[0], r[2], '', '', r[1], r[3], r[4], r[5], r[6], '', '', 'mail_a_envoyer', '', token, new Date()];
+  });
+  sh.getRange(2,1,rows.length,TABS.Contacts.length).setValues(rows);
+  Logger.log(rows.length + ' prospects importés.');
+}
+
+function SEED_CONTACTS(){
+  return [
+   ["DOMAINE DE LA CHANTERELLE","Verlinghem","Olivia Barreto","Restauration","10-19","SAS","56.21Z"],
+   ["Transports Routiers L.J.","Verlinghem","Muriel Lampe","Transport","50-99","SAS","49.41A"],
+   ["Ferrantelli","Verlinghem","Vito Ferrantelli","Aménagement","20-49","SAS","43.34Z"],
+   ["SARL Brame","Verlinghem","Olivier Brame","Services bâtiment","20-49","SARL","81.30Z"],
+   ["Ets Michel Delepierre","Verlinghem","Freddy Delepierre","Transport","10-19","SARL","49.41B"],
+   ["SARL Lefebvre Frères","Verlinghem","Denis Lefebvre","Commerce de gros","10-19","SAS","46.31Z"],
+   ["Du Petit Ronchin","Verlinghem","Johann Paul","Commerce de détail","10-19","SNC","47.73Z"],
+   ["Babybulle","Verlinghem","Nathalie Bataillie","Crèche","10-19","SARL","88.91A"],
+   ["Catteau Voyages","Pérenchies","Christian Van Gertruy","Transport voyageurs","50-99","SA","49.39B"],
+   ["Hexactus","Pérenchies","","Construction","50-99","SAS","43.39Z"],
+   ["Cohérence Énergies","Pérenchies","Nicolas Hernigou","Ingénierie","10-19","SARL","71.12B"],
+   ["Logiscam","Pérenchies","Christophe Bigo","Logistique","20-49","SAS","52.29B"],
+   ["Nord Littoral Ingénierie","Pérenchies","Philippe Baron","Ingénierie","10-19","SARL","71.12B"],
+   ["SARL DT Froid","Pérenchies","Christophe Despierres","Froid industriel","10-19","SARL","28.25Z"],
+   ["André Réalisations","Pérenchies","","Installation","10-19","SAS","33.20A"],
+   ["Transports Depaeuw","Lompret","Dorothée Vidal / Julien Depaeuw","Transport voyageurs","20-49","SAS","49.41A"],
+   ["C et F","Lompret","Ludovic Bigo","Commerce de détail","10-19","SAS","47.99A"],
+   ["Le Son de Cuisine","Lompret","Victor Deleval","Hébergement","10-19","SAS","55.10Z"],
+   ["Garage Top","Lompret","Mathieu Lesaffre","Automobile","10-19","SAS","45.11Z"],
+   ["Transports Lambert","Lompret","","Transport","20-49","SAS","49.41A"],
+   ["Mécaloc Nord","Lompret","Tony Ougier","Location de matériel","10-19","SARL","77.32Z"],
+   ["Ets Pique et Fils","Quesnoy-sur-Deûle","Jean-Luc Lechartre","Installation","20-49","SAS","43.33Z"],
+   ["Transports Combinés et Navettes","Quesnoy-sur-Deûle","Benoit Quennelle","Transport voyageurs","20-49","SARL","49.41A"],
+   ["CDTC Joly","Quesnoy-sur-Deûle","","Supermarché","20-49","SAS","47.11D"],
+   ["Broudehoux Boisse Soc","Quesnoy-sur-Deûle","","Textile","20-49","SAS","13.92Z"],
+   ["Métropole Travaux Publics","Quesnoy-sur-Deûle","Daniel Baussart","Travaux publics","10-19","SAS","43.12A"],
+   ["Délices en Nord","Quesnoy-sur-Deûle","Julien Delhaye","Restauration rapide","10-19","SAS","56.10C"],
+   ["Énergie Verte","Quesnoy-sur-Deûle","","Commerce de gros","10-19","SAS","46.71Z"],
+   ["Hippocamp","Quesnoy-sur-Deûle","","Informatique","10-19","SAS","62.02A"],
+   ["Quad Station","Quesnoy-sur-Deûle","Sandrine Vienne","Automobile","≥10","SARL","45.11Z"],
+   ["Résidence Les Lys Blancs","Quesnoy-sur-Deûle","","Hébergement médicalisé","≥10","SARL","87.10A"],
+   ["SA Mouille Michel","Capinghem","Jimmy Feys","Transformation de viande","20-49","SA","10.11Z"],
+   ["Athos Solutions NPDC","Capinghem","","Ingénierie","20-49","SAS","71.20B"],
+   ["Kokab & Co","Capinghem","Mubeen Mohammad","Restauration","10-19","SARL","56.10A"],
+   ["Promesse de Fleurs","Prémesques","","Jardinerie","50-99","SAS","47.76Z"],
+   ["Transports Turpin","Prémesques","","Transport de fret","20-49","SAS","49.41A"],
+   ["Clair et Propre","Prémesques","Benoit Swyngedauw","Nettoyage","10-19","SARL","81.21Z"],
+   ["SARL Les 3 Artisans","Prémesques","Fabrice Derycke","Construction","10-19","SARL","43.22A"],
+   ["Ambiances Jardins","Prémesques","Nicolas Leclercq","Paysage","10-19","SARL","81.30Z"],
+   ["Nord de France Expertise Auto","Wambrechies","","Expertise auto","100-199","SAS","66.21Z"],
+   ["Foodiz Deli","Lambersart","","Restauration rapide","100-199","SAS","56.10C"],
+   ["Tibet SARL","Lambersart","Marie-Josée Mastin","Soins de beauté","100-199","SARL","96.02A"],
+   ["La Voix Médias","Lambersart","Thierry Hugot","Régie publicitaire","100-199","SAS","73.12Z"],
+   ["Tout Chaud","Lambersart","","Restauration rapide","100-199","SAS","56.10C"],
+   ["Sergic Services Hôteliers","Lambersart","","Hébergement","100-199","SAS","55.10Z"],
+   ["Vistalid","Lambersart","Julien Marchand","Études de marché","100-199","SAS","73.11Z"],
+   ["Ternois Fermetures Littoral","Lambersart","Géry Cuvelier","Menuiserie","50-99","SARL","43.32A"],
+   ["Abrinor","Lambersart","Olivier Leplat","Immobilier","50-99","SAS","68.32A"],
+   ["Certas Energy France","Lambersart","Laurent de Sère","Combustibles","20-49","SAS","47.30Z"],
+   ["Selarl Intercard","Lambersart","Bertrand Sthorez","Cardiologie","20-49","SELAS","86.21Z"],
+   ["Ets Petitprez et Lambaere","Lambersart","","Pressing","20-49","SAS","96.01B"],
+   ["Rossel","Lambersart","","Pressing","20-49","SAS","96.01B"],
+   ["Océane Voyages","Lambersart","Thierry Daudigny","Agence de voyage","20-49","SAS","79.11Z"],
+   ["Evancy SARL","Lambersart","Jonathan Debucquoy","Hébergement","20-49","SARL","55.20Z"],
+   ["B'Coworker","Lambersart","Agnès Rame","Immobilier / coworking","10-19","SAS","68.20B"],
+   ["Mission Performance","Lambersart","Bruno Lagache","Commerce de détail","10-19","SARL","47.89Z"],
+   ["Call Sat","Lambersart","Stéphane Canot","Commerce de détail","10-19","SARL","47.54Z"],
+   ["Ginkgo Sport","Lambersart","","Club de sport","10-19","SARL","93.12Z"],
+   ["Dalkia","Saint-André-lez-Lille","Marc Benayoun","Énergie (groupe EDF)","10000+","SA","Services énergie"],
+   ["Foncia Hauts-de-France","Saint-André-lez-Lille","Laurent Lecolier","Immobilier","100-199","SAS","68.32A"],
+   ["Boone Comenor Metalimpex","Marquette-lez-Lille","Laurent Boone","Commerce de métaux","20-49","SAS","46.72Z"],
+   ["Molinel","Frelinghien","","Vêtements de travail","100-199","SAS","14.12Z"],
+   ["SARL Liebart Parcs et Jardins","Frelinghien","Bernard Liebart","Paysage","10-19","SARL","81.30Z"],
+   ["Les Artisans de la Lys","Frelinghien","","Construction","10-19","SAS","43.99"],
+   ["Coop Au Panier Vert","Frelinghien","","Commerce alimentaire","20-49","Coop. agricole","47.21Z"],
+   ["Prismeo Lille","Houplines","Rachele Ghestem","Transport","50-99","SAS","49.41A"],
+   ["Coccibulles","Houplines","Sylvain & Singrid Coutsier","Crèche","10-19","SARL","88.91A"],
+   ["Prismeo Provence","Houplines","","Transport","50-99","SAS","49.41A"],
+   ["Prismeo Maubeuge","Houplines","","Transport","50-99","SAS","49.41A"],
+   ["Prismeo Bourgogne","Houplines","","Transport","50-99","SAS","49.41A"],
+   ["Prismeo Paris Nord","Houplines","","Transport","20-49","SAS","49.41A"],
+   ["Transports Catroux","Houplines","","Transport","100-199","SAS","49.41A"],
+   ["Dubreu SAS","Houplines","","Construction","50-99","SAS","43.99"],
+   ["Pompes Funèbres Remory","Houplines","","Services funéraires","10-19","SAS","96.03Z"]
+  ];
+}
