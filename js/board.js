@@ -1,57 +1,53 @@
-/* board.js — rendu du rail de tri (kanban) + drag & drop + compteurs */
+/* board.js — vue Pipeline : liste pleine largeur (raccourcis LinkedIn / Mail / Landing) */
 
 function render() {
-  const board = document.getElementById("board");
-  board.innerHTML = "";
   const counts = {};
   LANES.forEach(l => counts[l.id] = 0);
   DATA.forEach(c => counts[c.statut] = (counts[c.statut] || 0) + 1);
 
-  LANES.forEach(lane => {
-    const el = document.createElement("div");
-    el.className = "lane";
-    el.dataset.lane = lane.id;
-    el.innerHTML =
-      `<div class="lane-head"><span class="dot" style="background:${lane.color}"></span>` +
-      `<b>${lane.label}</b><span class="count">${counts[lane.id] || 0}</span></div>` +
-      `<div class="lane-body"></div>`;
-    const body = el.querySelector(".lane-body");
-    DATA.filter(c => c.statut === lane.id).forEach(c => body.appendChild(cardEl(c, lane.color)));
-    addDnd(el);
-    board.appendChild(el);
-  });
+  const board = document.getElementById("board");
+  board.innerHTML = `
+    <div class="plist">
+      <div class="lhead">
+        <div class="lh-main">Entreprise · dirigeant</div>
+        <div class="lh-meta">Localisation · secteur</div>
+        <div class="lh-stage">Étape</div>
+        <div class="lh-acts">Raccourcis</div>
+      </div>
+      ${DATA.map(rowHtml).join("")}
+    </div>`;
+
   renderStats(counts);
   if (typeof renderHome === "function") renderHome();
 }
 
-function cardEl(c, color) {
-  const d = document.createElement("div");
-  d.className = "card";
-  d.draggable = true;
-  d.dataset.id = c.id;
-  d.style.borderLeftColor = color;
+function rowHtml(c) {
+  const opts = LANES.map(l =>
+    `<option value="${l.id}" ${l.id === c.statut ? "selected" : ""}>${l.label}</option>`).join("");
+  const li = c.linkedin ||
+    ("https://www.linkedin.com/search/results/people/?keywords=" +
+      encodeURIComponent((c.dirigeant || "") + " " + c.entreprise));
   const dir = c.dirigeant
-    ? `<div class="dir">${c.dirigeant}</div>`
-    : `<div class="dir no-dir">Dirigeant à identifier</div>`;
-  d.innerHTML =
-    `<div class="co">${c.entreprise}</div>${dir}` +
-    `<div class="meta"><span class="pill">${c.commune}</span>` +
-    `<span class="pill">${c.secteur}</span><span class="pill">${c.effectif} sal.</span></div>`;
-  d.addEventListener("dragstart", e => { e.dataTransfer.setData("id", c.id); d.classList.add("dragging"); });
-  d.addEventListener("dragend", () => d.classList.remove("dragging"));
-  d.addEventListener("click", () => openDetail(c.id));
-  return d;
-}
+    ? `<span class="ldir">${c.dirigeant}</span>`
+    : `<span class="ldir no-dir">Dirigeant à identifier</span>`;
+  const mail = c.email
+    ? `<a class="ic" href="mailto:${c.email}" title="Écrire à ${c.email}" onclick="event.stopPropagation()">Mail</a>`
+    : `<span class="ic off" title="Email à enrichir">Mail</span>`;
 
-function addDnd(lane) {
-  lane.addEventListener("dragover", e => { e.preventDefault(); lane.classList.add("drag-over"); });
-  lane.addEventListener("dragleave", () => lane.classList.remove("drag-over"));
-  lane.addEventListener("drop", e => {
-    e.preventDefault();
-    lane.classList.remove("drag-over");
-    const c = DATA.find(x => x.id === e.dataTransfer.getData("id"));
-    if (c) { c.statut = lane.dataset.lane; persist(); render(); }
-  });
+  return `
+    <div class="lrow" onclick="openDetail('${c.id}')">
+      <div class="lmain"><span class="lco">${c.entreprise}</span>${dir}</div>
+      <div class="lmeta">${c.commune} · ${c.secteur} · ${c.effectif} sal.</div>
+      <div class="lstage">
+        <select onclick="event.stopPropagation()" onchange="event.stopPropagation();changeStatus('${c.id}',this.value)">${opts}</select>
+      </div>
+      <div class="lacts" onclick="event.stopPropagation()">
+        <a class="ic" href="${li}" target="_blank" rel="noopener" title="Profil / recherche LinkedIn">in</a>
+        ${mail}
+        <button class="ic" onclick="openLanding('${c.id}','voisins')" title="Ouvrir la landing">Landing</button>
+        <button class="ic" onclick="copyLanding('${c.id}','voisins')" title="Copier le lien de la landing">Copier</button>
+      </div>
+    </div>`;
 }
 
 function renderStats(counts) {

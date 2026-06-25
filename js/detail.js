@@ -113,6 +113,7 @@ function openDetail(id) {
 function changeStatus(id, val) {
   const c = DATA.find(x => x.id === id);
   c.statut = val; persist();
+  if (typeof render === "function") render();   // met à jour compteurs + funnel
   stub("Étape mise à jour");
 }
 function saveField(id, field, val) {

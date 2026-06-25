@@ -26,6 +26,33 @@ header.top{background:var(--white);border-bottom:1px solid var(--line);padding:1
 .pill{background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:1px 7px}
 .card .no-dir{color:#B98A5E}
 
+/* Vue Pipeline : liste pleine largeur */
+.plist{flex:1 1 auto;min-width:0;width:100%;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--white);box-shadow:var(--shadow)}
+.lhead{display:flex;align-items:center;gap:14px;padding:10px 16px;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);background:var(--bg);border-bottom:1px solid var(--line)}
+.lrow{display:flex;align-items:center;gap:14px;padding:11px 16px;border-bottom:1px solid var(--line);cursor:pointer}
+.lrow:last-child{border-bottom:none}
+.lrow:hover{background:#FBFAF7}
+.lmain,.lh-main{flex:1.6 1 0;min-width:0;display:flex;flex-direction:column}
+.lco{font-weight:600;font-size:14px;line-height:1.2}
+.ldir{font-size:12.5px;color:var(--muted)}
+.ldir.no-dir{color:#B98A5E}
+.lmeta,.lh-meta{flex:1.4 1 0;min-width:0;font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lstage,.lh-stage{flex:0 0 168px}
+.lstage select{padding:7px 9px;font-size:12.5px}
+.lacts,.lh-acts{flex:0 0 auto;display:flex;gap:6px;align-items:center}
+.ic{font-size:12px;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:5px 10px;text-decoration:none;color:var(--dark);font-family:inherit;cursor:pointer;white-space:nowrap;line-height:1.4}
+.ic:hover{border-color:var(--green);color:var(--green-d)}
+.ic.off{color:#c4bdb4;cursor:default}
+@media (max-width:760px){
+  .lhead{display:none}
+  .lrow{flex-wrap:wrap;gap:8px;align-items:flex-start}
+  .lmain{flex:1 1 100%}
+  .lmeta{flex:1 1 100%;white-space:normal}
+  .lstage{flex:1 1 100%}
+  .lstage select{width:100%}
+  .lacts{flex:1 1 100%;flex-wrap:wrap}
+}
+
 /* Bouton d'ajout (header) */
 .btn-add{margin-left:auto;background:var(--green);color:#fff;border:none;border-radius:10px;padding:9px 14px;font-size:13.5px;font-weight:600;font-family:inherit;cursor:pointer}
 .btn-add:hover{background:var(--green-d)}
