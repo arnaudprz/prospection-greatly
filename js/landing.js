@@ -6,34 +6,39 @@
   const prenom = q.get("p") || "";
   const token = q.get("t") || "";
 
-  // Personnalisation du message
-  if (prenom) document.getElementById("hello").textContent = "Bonjour " + prenom + ",";
+  // Personnalisation
+  document.getElementById("hello").textContent = prenom ? "Bonjour " + prenom + "," : "Bonjour,";
   document.getElementById("lead").textContent = entreprise
-    ? "On est quasi voisins — vous chez " + entreprise + ", moi chez Greatly, à quelques rues l'un de l'autre. Entre dirigeants du même coin, on gagnerait à se connaître."
-    : "On est quasi voisins, et entre dirigeants du même coin, on gagnerait à se connaître.";
+    ? "Vous dirigez " + entreprise + ", je dirige Greatly — à quelques rues l'un de l'autre. Deux dirigeants du même coin qui gagneraient sûrement à se connaître."
+    : "Vous et moi dirigeons chacun notre entreprise, à quelques rues l'un de l'autre. Deux dirigeants du même coin qui gagneraient sûrement à se connaître.";
 
-  // Signature / contact
+  // Signature
   document.getElementById("meName").textContent = ME.nom;
   document.getElementById("meRole").textContent = ME.role;
+  const initials = ME.nom.split(/\s+/).map(w => w[0]).join("").slice(0, 2).toUpperCase();
   const av = document.getElementById("avatar");
   av.src = ME.photo;
   av.onerror = function () {
-    av.replaceWith(Object.assign(document.createElement("div"), { className: "avatar", textContent: ME.nom[0] }));
+    av.replaceWith(Object.assign(document.createElement("div"), { className: "avatar", textContent: initials }));
   };
   document.getElementById("contacts").innerHTML =
     `<a href="mailto:${ME.email}">✉️ ${ME.email}</a>` +
     `<a href="tel:${ME.tel.replace(/\s/g, '')}">📞 ${ME.tel}</a>` +
     `<a href="${ME.linkedin}" target="_blank" rel="noopener">in LinkedIn</a>`;
 
-  // Bouton mailto
-  const subject = encodeURIComponent("Un café entre voisins" + (entreprise ? (" — " + entreprise) : ""));
-  const body = encodeURIComponent("Bonjour Arnaud,\n\nAvec plaisir pour un café. Voici mes disponibilités : \n\n");
-  document.getElementById("ctaMail").href = `mailto:${ME.email}?subject=${subject}&body=${body}`;
-
   // Bouton agenda (principal)
   const ctaAgenda = document.getElementById("ctaAgenda");
   if (ME.agenda) ctaAgenda.href = ME.agenda;
   else ctaAgenda.style.display = "none";
+
+  // Répondre par email
+  const subject = encodeURIComponent("Un café entre voisins" + (entreprise ? (" — " + entreprise) : ""));
+  const body = encodeURIComponent("Bonjour Arnaud,\n\nAvec plaisir pour un café. Voici mes disponibilités : \n\n");
+  document.getElementById("ctaMail").href = `mailto:${ME.email}?subject=${subject}&body=${body}`;
+
+  // Désinscription
+  document.getElementById("unsub").href =
+    `mailto:${ME.email}?subject=${encodeURIComponent("Désinscription")}&body=${encodeURIComponent("Merci de ne plus me contacter.")}`;
 
   // Créneaux réels si backend connecté
   if (CONFIG.BACKEND_URL && token) {
