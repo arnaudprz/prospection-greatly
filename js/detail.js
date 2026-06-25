@@ -32,11 +32,11 @@ function linkedinSearch(c) {
     encodeURIComponent((c.dirigeant || "") + " " + c.entreprise);
 }
 function landingUrl(c, s) {
-  const u = new URL("rdv.html", location.href);
+  // une page de partage par scénario (aperçu Open Graph dédié) -> redirige vers la landing
+  const u = new URL("rdv-" + s + ".html", location.href);
   u.searchParams.set("e", c.entreprise);
   const prenom = (c.dirigeant || "").split(/[ \/]/)[0];
   if (prenom) u.searchParams.set("p", prenom);
-  u.searchParams.set("s", s);
   return u.href;
 }
 function openLanding(id, s) { window.open(landingUrl(DATA.find(x => x.id === id), s), "_blank"); }
