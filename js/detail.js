@@ -11,11 +11,21 @@ function linkedinSearch(c) {
     encodeURIComponent((c.dirigeant || "") + " " + c.entreprise);
 }
 
-function openLanding(id) {
-  const c = DATA.find(x => x.id === id);
+function landingUrl(c, s) {
+  const u = new URL("rdv.html", location.href);
+  u.searchParams.set("e", c.entreprise);
   const prenom = (c.dirigeant || "").split(/[ \/]/)[0];
-  const url = "rdv.html?e=" + encodeURIComponent(c.entreprise) + "&p=" + encodeURIComponent(prenom);
-  window.open(url, "_blank");
+  if (prenom) u.searchParams.set("p", prenom);
+  u.searchParams.set("s", s);
+  return u.href;
+}
+function openLanding(id, s) {
+  window.open(landingUrl(DATA.find(x => x.id === id), s), "_blank");
+}
+function copyLanding(id, s) {
+  const url = landingUrl(DATA.find(x => x.id === id), s);
+  if (navigator.clipboard) navigator.clipboard.writeText(url).then(() => stub("Lien copié"), () => prompt("Copier le lien :", url));
+  else prompt("Copier le lien :", url);
 }
 
 function openDetail(id) {
@@ -77,9 +87,20 @@ function openDetail(id) {
                   onblur="saveField('${c.id}','note',this.value)">${c.note || ""}</textarea>
       </div>
 
+      <div class="section">
+        <div class="stitle">Page perso (landing) · un lien par scénario</div>
+        ${Object.keys(SCENARIOS).map(s => `
+          <div class="scen-row">
+            <span class="scen-name">${SCENARIOS[s].name}</span>
+            <span class="scen-acts">
+              <button class="mini" onclick="openLanding('${c.id}','${s}')">Ouvrir</button>
+              <button class="mini" onclick="copyLanding('${c.id}','${s}')">Copier le lien</button>
+            </span>
+          </div>`).join("")}
+      </div>
+
       <div class="actions actions-row">
         <button class="btn btn-primary" onclick="stub('Brouillon « café entre voisins » généré par Claude')">Rédiger l'invitation (IA)</button>
-        <button class="btn btn-ghost" onclick="openLanding('${c.id}')">Ouvrir sa page perso (café)</button>
         <button class="btn btn-ghost" onclick="stub('Ouverture du fil d\\'échange')">Voir les échanges</button>
       </div>
 

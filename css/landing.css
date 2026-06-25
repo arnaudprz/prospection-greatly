@@ -1,4 +1,6 @@
-/* landing.css — page café personnalisée (rdv.html) — MOBILE FIRST */
+/* landing.css — page café personnalisée (rdv.html) — MOBILE FIRST
+   Calée sur le mockup fourni : bandeau vert, accroche, titre serif, chips, CTA,
+   signature, pied avec désinscription. + photo en haut et itinéraires en bas. */
 
 body{line-height:1.55}
 .wrap{max-width:600px;margin:0 auto;padding:18px 14px 40px}
@@ -11,21 +13,20 @@ body{line-height:1.55}
 .band b{font-family:'Fraunces',Georgia,serif;font-size:18px;color:#fff}
 .band-right{font-size:12px;line-height:1.3;color:rgba(255,255,255,.88);text-align:right;max-width:48%}
 
+/* Photo en haut (pleine largeur) */
+.hero{margin:0}
+.hero img{width:100%;aspect-ratio:3/2;object-fit:cover;object-position:40% 56%;display:block}
+.hero-cap{padding:9px 18px 0}
+.hero figcaption{font-size:12px;color:var(--muted);text-align:center}
+
 /* Corps */
-.body{padding:22px 18px 6px}
+.body{padding:20px 18px 6px}
 .hello{color:var(--green);font-weight:600;font-size:15px;margin-bottom:2px}
 .subhello{color:var(--muted);font-size:14.5px;margin-bottom:12px}
 h1{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:26px;line-height:1.13;margin-bottom:14px}
 h1 .amp{color:var(--green)}
 p.lead{font-size:15.5px;color:#33312e;margin-bottom:13px}
-
-/* Image Greatly House */
-.house{margin:16px 0}
-.house img{width:100%;aspect-ratio:3/2;object-fit:cover;object-position:50% 90%;border-radius:14px;display:block}
-.house figcaption{font-size:12px;color:var(--muted);margin-top:8px;text-align:center}
-.dir-links{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:10px}
-.dir-links a{font-size:12.5px;text-decoration:none;color:var(--green-d);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:6px 13px}
-.dir-links a:hover{border-color:var(--green)}
+.lead a{color:var(--green-d);text-decoration:underline;font-weight:500}
 
 /* Chips */
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 2px}
@@ -50,6 +51,13 @@ p.lead{font-size:15.5px;color:#33312e;margin-bottom:13px}
 .contacts a{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;text-decoration:none;color:var(--dark);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:6px 11px}
 .contacts a:hover{border-color:var(--green);color:var(--green-d)}
 
+/* Adresse + itinéraires (en bas) */
+.address{padding:16px 18px;border-top:1px solid var(--line);text-align:center}
+.addr-line{font-size:13px;color:var(--dark);margin-bottom:9px}
+.dir-links{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+.dir-links a{font-size:12.5px;text-decoration:none;color:var(--green-d);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:6px 13px}
+.dir-links a:hover{border-color:var(--green)}
+
 /* Pied */
 .foot{background:var(--bg);padding:14px 18px;text-align:center;font-size:11.5px;color:var(--muted);border-top:1px solid var(--line)}
 .foot a{display:block;margin-top:4px;color:var(--muted);text-decoration:underline}
@@ -58,14 +66,15 @@ p.lead{font-size:15.5px;color:#33312e;margin-bottom:13px}
 @media (min-width:600px){
   .wrap{padding:30px 22px 60px}
   .band{padding:17px 24px}
-  .body{padding:28px 26px 8px}
+  .hero-cap{padding:11px 26px 0}
+  .body{padding:26px 26px 8px}
   h1{font-size:31px;margin-bottom:16px}
   p.lead{font-size:16px}
-  .house img{aspect-ratio:16/9}
   .cta{display:inline-flex;width:auto;padding:15px 24px;font-size:15.5px}
   .cta-sec{display:inline-block;margin-left:16px;margin-top:0}
   .slot{flex:0 0 auto}
   .sign{padding:22px 26px;gap:16px}
   .avatar{width:64px;height:64px;font-size:23px}
+  .address{padding:18px 26px}
   .foot{padding:16px 26px}
 }

@@ -5,12 +5,14 @@
   const entreprise = q.get("e") || "";
   const prenom = q.get("p") || "";
   const token = q.get("t") || "";
+  const scen = SCENARIOS[q.get("s")] || SCENARIOS.voisins;
 
-  // Personnalisation
+  // Accroche selon le scénario (?s=voisins|linkedin|relation|recommande)
   document.getElementById("hello").textContent = prenom ? "Bonjour " + prenom + "," : "Bonjour,";
-  document.getElementById("lead").textContent = entreprise
-    ? "Vous dirigez " + entreprise + ", je dirige Greatly, à quelques rues l'un de l'autre. Deux dirigeants du même coin qui gagneraient sûrement à se connaître."
-    : "Vous et moi dirigeons chacun notre entreprise, à quelques rues l'un de l'autre. Deux dirigeants du même coin qui gagneraient sûrement à se connaître.";
+  document.getElementById("bandRight").textContent = scen.band;
+  document.getElementById("subhello").textContent = scen.sub;
+  document.getElementById("title").innerHTML = scen.title;
+  document.getElementById("lead").textContent = scen.lead(entreprise);
 
   // Signature
   document.getElementById("meName").textContent = ME.nom;
@@ -57,7 +59,7 @@
     fetch(CONFIG.BACKEND_URL, { method: "POST", body: JSON.stringify({ action: "book", token, iso }) })
       .then(r => r.json()).then(() => {
         document.getElementById("booking").innerHTML =
-          `<p class="lead">C'est noté pour <b>${label}</b>. Vous recevrez une confirmation par mail, on se voit à la Greatly House. À très vite !</p>`;
+          `<p class="lead">C'est noté pour <b>${label}</b>. Vous recevrez une confirmation par mail : on se voit à la Greatly House, ou en visio si vous préférez. À très vite !</p>`;
       });
   };
 })();

@@ -65,6 +65,13 @@ textarea{resize:vertical;min-height:72px}
 .hist{font-size:12.5px;color:var(--muted);padding:6px 0;border-bottom:1px dashed var(--line);display:flex;gap:8px}
 .hint{font-size:11.5px;color:var(--muted);margin-top:16px}
 
+/* Scénarios de landing (fiche) */
+.scen-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:9px 0;border-bottom:1px dashed var(--line)}
+.scen-name{font-size:13.5px;font-weight:500}
+.scen-acts{display:flex;gap:6px}
+.mini{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 11px;font-size:12px;font-family:inherit;cursor:pointer;color:var(--dark)}
+.mini:hover{border-color:var(--green);color:var(--green-d)}
+
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark);color:#fff;padding:11px 18px;border-radius:10px;font-size:13.5px;opacity:0;pointer-events:none;transition:.25s;z-index:50}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 

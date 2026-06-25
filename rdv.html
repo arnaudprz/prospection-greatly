@@ -6,8 +6,8 @@
 <title>Un café entre voisins · Greatly</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/theme.css?v=4">
-<link rel="stylesheet" href="css/landing.css?v=4">
+<link rel="stylesheet" href="css/theme.css?v=5">
+<link rel="stylesheet" href="css/landing.css?v=5">
 </head>
 <body>
   <div class="wrap">
@@ -15,26 +15,27 @@
 
       <div class="band">
         <div class="brand-band"><div class="logo">G</div><b>Greatly</b></div>
-        <div class="band-right">Verlinghem · à quelques minutes de chez vous</div>
+        <div class="band-right" id="bandRight">Verlinghem · à quelques minutes de chez vous</div>
       </div>
+
+      <figure class="hero">
+        <img src="https://greatly.club/greatly-house-parc-facade.jpg" alt="La Greatly House et son jardin, à Verlinghem" loading="lazy">
+        <div class="hero-cap">
+          <figcaption>La Greatly House, à Verlinghem, là où on prendra le café</figcaption>
+        </div>
+      </figure>
 
       <div class="body">
         <div class="hello" id="hello">Bonjour,</div>
-        <div class="subhello">on ne se connaît pas encore, mais on est presque voisins.</div>
+        <div class="subhello" id="subhello">on ne se connaît pas encore, mais on est presque voisins.</div>
 
-        <h1>Et si on prenait un café, <span class="amp">entre voisins</span> ?</h1>
+        <h1 id="title">Et si on prenait un café, <span class="amp">entre voisins</span> ?</h1>
 
         <p class="lead" id="lead"></p>
-        <p class="lead">L'idée tient en une phrase : se voir 30 minutes pour découvrir nos univers. Rien à vendre, aucun agenda caché.</p>
 
-        <figure class="house">
-          <img src="https://greatly.club/greatly-house-parc-facade.jpg" alt="La Greatly House et son jardin, à Verlinghem" loading="lazy">
-          <figcaption>La Greatly House, à Verlinghem, là où on prendra le café</figcaption>
-          <div class="dir-links">
-            <a href="https://maps.google.com/?q=10+rue+de+Lambersart+59237+Verlinghem" target="_blank" rel="noopener">Itinéraire Google Maps</a>
-            <a href="https://waze.com/ul?q=10%20rue%20de%20Lambersart%20Verlinghem&navigate=yes" target="_blank" rel="noopener">Itinéraire Waze</a>
-          </div>
-        </figure>
+        <p class="lead pitch">Pour me présenter : moi c'est Arnaud, entrepreneur chez <a href="https://greatly.club" target="_blank" rel="noopener">Greatly</a>. On aide les entreprises à être plus performantes en accompagnant leurs dirigeants et leurs cadres autour de deux leviers : l'énergie et la lucidité.</p>
+
+        <p class="lead">L'idée tient en une phrase : se voir 30 minutes pour découvrir nos univers. Rien à vendre, aucun agenda caché.</p>
 
         <div class="chips">
           <span class="chip">30 minutes</span>
@@ -46,7 +47,7 @@
           <a class="cta" id="ctaAgenda" target="_blank" rel="noopener">Choisir un créneau dans mon agenda</a>
           <a class="cta-sec" id="ctaMail">ou répondez-moi simplement à cet email</a>
           <div class="slots" id="slots"></div>
-          <p class="note">On se voit en vrai, à la Greatly House · le rendez-vous se cale tout seul</p>
+          <p class="note">On se voit à la Greatly House, ou en visio si vous préférez · le rendez-vous se cale tout seul</p>
         </div>
       </div>
 
@@ -59,6 +60,14 @@
         </div>
       </div>
 
+      <div class="address">
+        <div class="addr-line">Greatly House · 10 rue de Lambersart, 59237 Verlinghem</div>
+        <div class="dir-links">
+          <a href="https://maps.google.com/?q=10+rue+de+Lambersart+59237+Verlinghem" target="_blank" rel="noopener">Itinéraire Google Maps</a>
+          <a href="https://waze.com/ul?q=10%20rue%20de%20Lambersart%20Verlinghem&navigate=yes" target="_blank" rel="noopener">Itinéraire Waze</a>
+        </div>
+      </div>
+
       <div class="foot">
         Greatly · accompagnement des dirigeants et de leurs équipes · Verlinghem
         <a id="unsub" href="#">Se désinscrire</a>
@@ -67,7 +76,7 @@
     </div>
   </div>
 
-  <script src="js/config.js?v=4"></script>
-  <script src="js/landing.js?v=4"></script>
+  <script src="js/config.js?v=5"></script>
+  <script src="js/landing.js?v=5"></script>
 </body>
 </html>
