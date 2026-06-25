@@ -6,36 +6,40 @@
 <title>Prospection · Greatly</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/theme.css?v=5">
-<link rel="stylesheet" href="css/app.css?v=5">
+<link rel="stylesheet" href="css/theme.css?v=6">
+<link rel="stylesheet" href="css/app.css?v=6">
 </head>
 <body>
   <header class="top">
     <div class="brand"><div class="logo">G</div><b>Greatly</b><span>· Prospection</span></div>
+    <nav class="nav">
+      <a id="navHome" class="active" onclick="goHome()">Accueil</a>
+      <a id="navBoard" onclick="goBoard()">Pipeline</a>
+    </nav>
     <button class="btn-add" id="addBtn">+ Ajouter un prospect</button>
     <div class="demo-badge" id="modeBadge">Mode démo</div>
   </header>
 
   <main>
-    <section id="boardView">
+    <section id="homeView"></section>
+    <section id="boardView" class="hidden">
       <div class="stats" id="stats"></div>
       <div class="board" id="board"></div>
     </section>
-
     <section id="detailView" class="hidden"></section>
     <section id="formView" class="hidden"></section>
   </main>
 
   <div class="toast" id="toast"></div>
 
-  <!-- Scripts classiques chargés dans l'ordre (pas de build) -->
-  <script src="js/config.js?v=5"></script>
-  <script src="js/data.js?v=5"></script>
-  <script src="js/store.js?v=5"></script>
-  <script src="js/ui.js?v=5"></script>
-  <script src="js/board.js?v=5"></script>
-  <script src="js/detail.js?v=5"></script>
-  <script src="js/form.js?v=5"></script>
-  <script src="js/app.js?v=5"></script>
+  <script src="js/config.js?v=6"></script>
+  <script src="js/data.js?v=6"></script>
+  <script src="js/store.js?v=6"></script>
+  <script src="js/ui.js?v=6"></script>
+  <script src="js/home.js?v=6"></script>
+  <script src="js/board.js?v=6"></script>
+  <script src="js/detail.js?v=6"></script>
+  <script src="js/form.js?v=6"></script>
+  <script src="js/app.js?v=6"></script>
 </body>
 </html>

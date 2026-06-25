@@ -1,6 +1,6 @@
 /* ui.js — utilitaires d'interface : toast + bascule de vues */
 
-const VIEWS = ["boardView", "detailView", "formView"];
+const VIEWS = ["homeView", "boardView", "detailView", "formView"];
 function showView(id) {
   VIEWS.forEach(v => {
     const el = document.getElementById(v);
@@ -8,10 +8,14 @@ function showView(id) {
   });
   window.scrollTo(0, 0);
 }
-function backToBoard() {
-  render();
-  showView("boardView");
+function setNav(active) {
+  const h = document.getElementById("navHome"), b = document.getElementById("navBoard");
+  if (h) h.classList.toggle("active", active === "home");
+  if (b) b.classList.toggle("active", active === "board");
 }
+function goHome() { renderHome(); showView("homeView"); setNav("home"); }
+function goBoard() { render(); showView("boardView"); setNav("board"); }
+function backToBoard() { goBoard(); }
 
 let _toastT;
 function stub(msg) {

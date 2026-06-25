@@ -21,6 +21,7 @@ function render() {
     board.appendChild(el);
   });
   renderStats(counts);
+  if (typeof renderHome === "function") renderHome();
 }
 
 function cardEl(c, color) {
