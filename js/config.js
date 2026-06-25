@@ -24,4 +24,4 @@ const LANES = [
   { id: "perdu",          label: "Perdu / pas intéressé",      color: "var(--l6)" }
 ];
 
-const STORE_KEY = "greatly_prospection_v2";
+const STORE_KEY = "greatly_prospection_v3";

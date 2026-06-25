@@ -1,4 +1,17 @@
-/* ui.js — petits utilitaires d'interface */
+/* ui.js — utilitaires d'interface : toast + bascule de vues */
+
+const VIEWS = ["boardView", "detailView", "formView"];
+function showView(id) {
+  VIEWS.forEach(v => {
+    const el = document.getElementById(v);
+    if (el) el.classList.toggle("hidden", v !== id);
+  });
+  window.scrollTo(0, 0);
+}
+function backToBoard() {
+  render();
+  showView("boardView");
+}
 
 let _toastT;
 function stub(msg) {

@@ -1,27 +1,32 @@
-/* store.js — chargement & persistance des données (démo localStorage ou backend) */
+/* store.js — chargement & persistance (démo localStorage ou backend) */
 
 let DATA = [];
 
-function loadData() {
-  if (CONFIG.BACKEND_URL) return fetchBackend();
-  const saved = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
-  DATA = SEED.map((r, i) => ({
+function seedData() {
+  return SEED.map((r, i) => ({
     id: "p" + i,
     entreprise: r[0], commune: r[1], dirigeant: r[2], secteur: r[3],
     effectif: r[4], forme: r[5], naf: r[6],
     email: "", telephone: "", siren: "", adresse: "",
-    linkedin: (saved[i] && saved[i].l) || "",
-    statut: (saved[i] && saved[i].s) || "mail_a_envoyer",
-    note: (saved[i] && saved[i].n) || ""
+    linkedin: "", statut: "mail_a_envoyer", note: ""
   }));
+}
+
+function loadData() {
+  if (CONFIG.BACKEND_URL) return fetchBackend();
+  const saved = localStorage.getItem(STORE_KEY);
+  if (saved) {
+    try { DATA = JSON.parse(saved); } catch (e) { DATA = seedData(); }
+  } else {
+    DATA = seedData();
+  }
   render();
 }
 
+// En mode démo on persiste toute la liste (ajouts compris)
 function persist() {
-  if (CONFIG.BACKEND_URL) return; // le backend persiste côté Sheet
-  const map = {};
-  DATA.forEach((c, i) => map[i] = { s: c.statut, n: c.note, l: c.linkedin });
-  localStorage.setItem(STORE_KEY, JSON.stringify(map));
+  if (CONFIG.BACKEND_URL) return;
+  localStorage.setItem(STORE_KEY, JSON.stringify(DATA));
 }
 
 async function fetchBackend() {

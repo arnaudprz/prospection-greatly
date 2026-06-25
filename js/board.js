@@ -38,7 +38,7 @@ function cardEl(c, color) {
     `<span class="pill">${c.secteur}</span><span class="pill">${c.effectif} sal.</span></div>`;
   d.addEventListener("dragstart", e => { e.dataTransfer.setData("id", c.id); d.classList.add("dragging"); });
   d.addEventListener("dragend", () => d.classList.remove("dragging"));
-  d.addEventListener("click", () => openDrawer(c.id));
+  d.addEventListener("click", () => openDetail(c.id));
   return d;
 }
 
